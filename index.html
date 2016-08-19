@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS Promise</title>
+    <script>
+        window.addEventListener("load", function () {
+            document.getElementById("b").addEventListener("click", function () {
+                var promise = new Promise(function(resolve,reject){
+                    var req=new XMLHttpRequest();
+                    req.open("GET","https://freegeoip.net/json/google.com");
+                    req.onload=function(){
+                        if(req.status==200){
+                            resolve(req.response);
+                        }
+                        else{
+                            reject(Error(req.statusText));
+                        }
+                    }
+                    req.send();
+                });
+                //console.log("Hello !");
+                promise.then(function(data,err){
+                    if(err)
+                        alert(err);
+                    else{
+                        document.getElementsByTagName("h3")[0].innerHTML=JSON.parse(data).country_code+" "+JSON.parse(data).ip.country_name;
+                    }
+                });
+                console.log("Hello !");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h1>JavaScript Promise</h1>
+    <button id="b">Get Data</button>
+    <h3></h3>
+</body>
+
+</html>
